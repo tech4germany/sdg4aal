@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": "dist/sdg4aal",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/index.html"
+      }
+    ]
+  }
+}
