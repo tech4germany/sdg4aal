@@ -1,1 +1,39 @@
-<p>landingpage works!</p>
+<div>
+    <mat-card>
+        <mat-card-title>Willkommen beim SDG-fo(u)r-AAl</mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="submit()">
+            <p>
+                <mat-form-field>
+                <input type="text" matInput placeholder="Ihr Projektname" formControlName="projectName">
+                </mat-form-field>
+            </p>
+
+            <p>
+                <mat-form-field >
+                    <input type="text" matInput placeholder="Ihre Projektbeschreibung" formControlName="projectDescription">
+                </mat-form-field>
+            </p>
+
+            <div class="button">
+                <button type="submit" (ngSubmit)='submit()' mat-button>Auf SDGs durchleuchten</button>
+            </div>
+            </form>
+        </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-title>
+                Erkannte SDGs
+            </mat-card-title>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div *ngFor="let SDG of this.SDGs;">
+                    <mat-card>
+                        <mat-card-title>SDG {{SDG}}</mat-card-title>
+                        <mat-card-content>
+                        <img src="/assets/SDGs/{{ SDG }}.png" alt="image" width="90px">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </mat-card>
+</div>

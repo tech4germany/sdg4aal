@@ -5,11 +5,11 @@ import {
   Optional,
   SkipSelf,
 } from '@angular/core';
-
+import { OsdgDataService } from './services/osdg-data.service';
 
 
 export const SERVICES = [
-
+  OsdgDataService,
 ];
 
 @NgModule({
