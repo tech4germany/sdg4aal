@@ -19,11 +19,14 @@ export class LandingpageComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  private projectName:string = "";
-  private projectDescription:string = "";
+  public projectName:string = "";
+  public projectDescription:string = "";
 
   public SDGs:number[] = [];
+  public detectedSDGSelection:number[] = [];
   public extrapolatedSDGGains:number[] = [];
+  public extrapolatedSDGGainsSelection:number[] = [];
+
 
   constructor(private osdgDataService: OsdgDataService) { }
 
@@ -40,7 +43,18 @@ export class LandingpageComponent implements OnInit {
     this.osdgDataService.setProjectName(projectName);
     this.osdgDataService.setProjectDescription(projectDescription);
     this.SDGs = this.osdgDataService.getSDGs()
-    this.extrapolatedSDGGains = extrapolateSDGGains(this.SDGs)
   }
 
-}
+  submitDetectedSDGSelect(SDG: number) {
+      this.detectedSDGSelection.push(SDG)
+    }
+
+  submitDetectedSDGs() {
+    this.extrapolatedSDGGains = extrapolateSDGGains(this.detectedSDGSelection)
+    }
+
+    submitExtrapolatedSDGGainsSelect(SDG: number) {
+      this.extrapolatedSDGGainsSelection.push(SDG)
+    }
+
+  }

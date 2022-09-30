@@ -26,11 +26,20 @@
                 Erkannte SDGs
             </mat-card-title>
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                <div *ngFor="let SDG of this.SDGs;">
+                <div *ngFor="let SDG of this.SDGs;" class="button">
+                    <button type="button" (click)='submitDetectedSDGSelect(SDG)' mat-button>
                     <mat-card>
                         <mat-card-title>SDG {{SDG}}</mat-card-title>
                         <mat-card-content>
                         <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
+                        </mat-card-content>
+                    </mat-card>
+                    </button>
+                </div>
+                <div>
+                    <mat-card>
+                        <mat-card-content>
+                            <button type="button" (click)='submitDetectedSDGs()' mat-button>Auswahl bestätigen</button>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -42,6 +51,39 @@
             </mat-card-title>
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
                 <div *ngFor="let SDG of this.extrapolatedSDGGains;">
+                <button type="button" (click)='submitExtrapolatedSDGGainsSelect(SDG)' mat-button>
+                    <mat-card>
+                        <mat-card-title>SDG {{SDG}}</mat-card-title>
+                        <mat-card-content>
+                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
+                        </mat-card-content>
+                    </mat-card>
+                </button>
+                </div>
+            </div>
+        </mat-card>
+        <mat-card>
+            <mat-card-title>
+                Projektzusammenfassung
+            </mat-card-title>
+            <mat-card>
+                <mat-card-title>
+                    {{ this.projectName }}
+                </mat-card-title>
+                <mat-card-content>
+                    {{ this.projectDescription }}
+                </mat-card-content>
+            </mat-card>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div *ngFor="let SDG of this.detectedSDGSelection;">
+                    <mat-card>
+                        <mat-card-title>SDG {{SDG}}</mat-card-title>
+                        <mat-card-content>
+                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div *ngFor="let SDG of this.extrapolatedSDGGainsSelection;">
                     <mat-card>
                         <mat-card-title>SDG {{SDG}}</mat-card-title>
                         <mat-card-content>
