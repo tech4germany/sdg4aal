@@ -1,112 +1,152 @@
 <div>
-    <mat-card>
-        <mat-card-title>Willkommen beim SDG-fo(u)r-AAl</mat-card-title>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="submit()">
-            <p>
-                <mat-form-field>
-                <input type="text" matInput placeholder="Ihr Projektname" formControlName="projectName">
-                </mat-form-field>
-            </p>
+  <mat-card>
+    <mat-card-title>Willkommen beim SDG-fo(u)r-AAl</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <p>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Ihr Projektname"
+              formControlName="projectName"
+            />
+          </mat-form-field>
+        </p>
 
-            <p>
-                <mat-form-field >
-                    <input type="text" matInput placeholder="Ihre Projektbeschreibung" formControlName="projectDescription">
-                </mat-form-field>
-            </p>
+        <p>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Ihre Projektbeschreibung"
+              formControlName="projectDescription"
+            />
+          </mat-form-field>
+        </p>
 
-            <div class="button">
-                <button type="submit" (ngSubmit)='submit()' mat-button>Auf SDGs durchleuchten</button>
-            </div>
-            </form>
-        </mat-card-content>
-        </mat-card>
-        <mat-card>
-            <mat-card-title>
-                Erkannte SDGs
-            </mat-card-title>
-            <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                <div *ngFor="let SDG of this.SDGs;" class="button">
-                    <div *ngIf="!this.detectedSDGSelection.has(SDG)">
-                    <button type="button" (click)='addDetectedSDG(SDG)' mat-button>
-                    <mat-card>
-                        <mat-card-title>SDG {{SDG}}</mat-card-title>
-                        <mat-card-content>
-                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
-                        </mat-card-content>
-                    </mat-card>
-                    </button>
-                    </div>
-                    <div *ngIf="this.detectedSDGSelection.has(SDG)">
-                        <button type="button" (click)='deleteDetectedSDG(SDG)' mat-button>
-                        <mat-card>
-                            <mat-card-title style="color:green">SDG {{SDG}}</mat-card-title>
-                            <mat-card-content>
-                            <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
-                            </mat-card-content>
-                        </mat-card>
-                        </button>
-                    </div>
-                </div>
-                <div *ngIf="this.detectedSDGSelection.size">
-                    <mat-card>
-                        <mat-card-content>
-                            <button type="button" (click)='submitDetectedSDGs()' mat-button>Auswahl bestätigen</button>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-            </div>
-        </mat-card>
-        <mat-card>
-            <mat-card-title>
-                Extrapolierte SDGs
-            </mat-card-title>
-            <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                <div *ngFor="let SDG of this.extrapolatedSDGGains;">
-                <div *ngIf="!this.extrapolatedSDGGainsSelection.has(SDG)">
-                <button type="button" (click)='addExtrapolatedSDGGain(SDG)' mat-button>
-                    <mat-card>
-                        <mat-card-title>SDG {{SDG}}</mat-card-title>
-                        <mat-card-content>
-                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
-                        </mat-card-content>
-                    </mat-card>
-                </button>
-                </div>
-                <div *ngIf="this.extrapolatedSDGGainsSelection.has(SDG)">
-                    <button type="button" (click)='deleteExtrapolatedSDGGain(SDG)' mat-button>
-                    <mat-card>
-                        <mat-card-title style="color:green">SDG {{SDG}}</mat-card-title>
-                        <mat-card-content>
-                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
-                        </mat-card-content>
-                    </mat-card>
-                    </button>
-                </div>
-                </div>
-            </div>
-        </mat-card>
-        <mat-card>
-            <mat-card-title>
-                Projektzusammenfassung
-            </mat-card-title>
+        <div class="button">
+          <button type="submit" (ngSubmit)="submit()" mat-button>
+            Auf SDGs durchleuchten
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title> Erkannte SDGs </mat-card-title>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div *ngFor="let SDG of this.SDGs" class="button">
+        <div *ngIf="!this.detectedSDGSelection.has(SDG)">
+          <button type="button" (click)="addDetectedSDG(SDG)" mat-button>
             <mat-card>
-                <mat-card-title>
-                    {{ this.projectName }}
-                </mat-card-title>
-                <mat-card-content>
-                    {{ this.projectDescription }}
-                </mat-card-content>
+              <mat-card-title>SDG {{ SDG }}</mat-card-title>
+              <mat-card-content>
+                <img
+                  src="/assets/SDGs/{{ SDG }}.png"
+                  alt="SDG {{ SDG }} icon"
+                  width="90px"
+                />
+              </mat-card-content>
             </mat-card>
-            <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                <div *ngFor="let SDG of this.getSDGSelection();">
-                    <mat-card>
-                        <mat-card-title>SDG {{SDG}}</mat-card-title>
-                        <mat-card-content>
-                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-            </div>
+          </button>
+        </div>
+        <div *ngIf="this.detectedSDGSelection.has(SDG)">
+          <button type="button" (click)="deleteDetectedSDG(SDG)" mat-button>
+            <mat-card>
+              <mat-card-title style="color: green"
+                >SDG {{ SDG }}</mat-card-title
+              >
+              <mat-card-content>
+                <img
+                  src="/assets/SDGs/{{ SDG }}.png"
+                  alt="SDG {{ SDG }} icon"
+                  width="90px"
+                />
+              </mat-card-content>
+            </mat-card>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="this.detectedSDGSelection.size">
+        <mat-card>
+          <mat-card-content>
+            <button type="button" (click)="submitDetectedSDGs()" mat-button>
+              Auswahl bestätigen
+            </button>
+          </mat-card-content>
         </mat-card>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card>
+    <mat-card-title> Extrapolierte SDGs </mat-card-title>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div *ngFor="let SDG of this.extrapolatedSDGGains">
+        <div *ngIf="!this.extrapolatedSDGGainsSelection.has(SDG)">
+          <button
+            type="button"
+            (click)="addExtrapolatedSDGGain(SDG)"
+            mat-button
+          >
+            <mat-card>
+              <mat-card-title>SDG {{ SDG }}</mat-card-title>
+              <mat-card-content>
+                <img
+                  src="/assets/SDGs/{{ SDG }}.png"
+                  alt="SDG {{ SDG }} icon"
+                  width="90px"
+                />
+              </mat-card-content>
+            </mat-card>
+          </button>
+        </div>
+        <div *ngIf="this.extrapolatedSDGGainsSelection.has(SDG)">
+          <button
+            type="button"
+            (click)="deleteExtrapolatedSDGGain(SDG)"
+            mat-button
+          >
+            <mat-card>
+              <mat-card-title style="color: green"
+                >SDG {{ SDG }}</mat-card-title
+              >
+              <mat-card-content>
+                <img
+                  src="/assets/SDGs/{{ SDG }}.png"
+                  alt="SDG {{ SDG }} icon"
+                  width="90px"
+                />
+              </mat-card-content>
+            </mat-card>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card>
+    <mat-card-title> Projektzusammenfassung </mat-card-title>
+    <mat-card>
+      <mat-card-title>
+        {{ this.projectName }}
+      </mat-card-title>
+      <mat-card-content>
+        {{ this.projectDescription }}
+      </mat-card-content>
+    </mat-card>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div *ngFor="let SDG of this.getSDGSelection()">
+        <mat-card>
+          <mat-card-title>SDG {{ SDG }}</mat-card-title>
+          <mat-card-content>
+            <img
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="90px"
+            />
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card>
 </div>
