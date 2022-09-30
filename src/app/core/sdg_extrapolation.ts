@@ -325,6 +325,11 @@ const SDG_GAIN_CORRELATIONS = [
 ];
 
 export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
+  var results = new Set<number>()
+  if (originalSDGs.size == 0) {
+    return results
+  }
+
   var SDGs: number[] = Array.from(originalSDGs)
 
   var correlationValues: number[] = Object.assign(
@@ -337,7 +342,6 @@ export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
       correlationValues[SDG] += correlationValToAdd;
   }
 
-  var results = new Set<number>()
 
   for (var _ of [0, 1, 2]) {
     let SDG:number = correlationValues.indexOf(Math.max(...correlationValues))
