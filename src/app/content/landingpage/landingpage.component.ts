@@ -23,10 +23,13 @@ export class LandingpageComponent implements OnInit {
   public projectDescription:string = "";
 
   public SDGs:number[] = [];
-  public detectedSDGSelection:number[] = [];
-  public extrapolatedSDGGains:number[] = [];
-  public extrapolatedSDGGainsSelection:number[] = [];
+  public detectedSDGSelection = new Set<number>();
+  public extrapolatedSDGGains = new Set<number>();
+  public extrapolatedSDGGainsSelection = new Set<number>();
 
+  public getSDGSelection():number[] {
+    return [...this.detectedSDGSelection, ...this.extrapolatedSDGGainsSelection].sort((a, b) => a - b)
+  }
 
   constructor(private osdgDataService: OsdgDataService) { }
 
@@ -45,16 +48,24 @@ export class LandingpageComponent implements OnInit {
     this.SDGs = this.osdgDataService.getSDGs()
   }
 
-  submitDetectedSDGSelect(SDG: number) {
-      this.detectedSDGSelection.push(SDG)
+  addDetectedSDG(SDG: number) {
+      this.detectedSDGSelection.add(SDG)
     }
+
+  deleteDetectedSDG(SDG: number) {
+    this.detectedSDGSelection.delete(SDG)
+  }
 
   submitDetectedSDGs() {
     this.extrapolatedSDGGains = extrapolateSDGGains(this.detectedSDGSelection)
     }
 
-    submitExtrapolatedSDGGainsSelect(SDG: number) {
-      this.extrapolatedSDGGainsSelection.push(SDG)
-    }
+  addExtrapolatedSDGGain(SDG: number) {
+    this.extrapolatedSDGGainsSelection.add(SDG)
+  }
+
+  deleteExtrapolatedSDGGain(SDG: number) {
+    this.extrapolatedSDGGainsSelection.delete(SDG)
+  }
 
   }
