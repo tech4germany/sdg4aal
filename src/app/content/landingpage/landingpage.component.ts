@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { OsdgDataService } from 'src/app/core/services/osdg-data.service';
+import { extrapolateSDGGains } from 'src/app/core/sdg_extrapolation'
 
 @Component({
   selector: 'app-landingpage',
@@ -22,6 +23,7 @@ export class LandingpageComponent implements OnInit {
   private projectDescription:string = "";
 
   public SDGs:number[] = [];
+  public extrapolatedSDGGains:number[] = [];
 
   constructor(private osdgDataService: OsdgDataService) { }
 
@@ -38,6 +40,7 @@ export class LandingpageComponent implements OnInit {
     this.osdgDataService.setProjectName(projectName);
     this.osdgDataService.setProjectDescription(projectDescription);
     this.SDGs = this.osdgDataService.getSDGs()
+    this.extrapolatedSDGGains = extrapolateSDGGains(this.SDGs)
   }
 
 }

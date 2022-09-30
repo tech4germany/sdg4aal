@@ -30,7 +30,22 @@
                     <mat-card>
                         <mat-card-title>SDG {{SDG}}</mat-card-title>
                         <mat-card-content>
-                        <img src="/assets/SDGs/{{ SDG }}.png" alt="image" width="90px">
+                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </mat-card>
+        <mat-card>
+            <mat-card-title>
+                Extrapolierte SDGs
+            </mat-card-title>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div *ngFor="let SDG of this.extrapolatedSDGGains;">
+                    <mat-card>
+                        <mat-card-title>SDG {{SDG}}</mat-card-title>
+                        <mat-card-content>
+                        <img src="/assets/SDGs/{{ SDG }}.png" alt="SDG {{ SDG }} icon" width="90px">
                         </mat-card-content>
                     </mat-card>
                 </div>
