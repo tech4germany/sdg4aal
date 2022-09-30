@@ -48,7 +48,7 @@
                         </button>
                     </div>
                 </div>
-                <div>
+                <div *ngIf="this.detectedSDGSelection.size">
                     <mat-card>
                         <mat-card-content>
                             <button type="button" (click)='submitDetectedSDGs()' mat-button>Auswahl bestätigen</button>
