@@ -33,7 +33,7 @@
       </form>
     </mat-card-content>
   </mat-card>
-  <mat-card>
+  <mat-card *ngIf="this.SDGs.length">
     <mat-card-title> Erkannte SDGs </mat-card-title>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div *ngFor="let SDG of this.SDGs" class="button">
@@ -79,7 +79,7 @@
       </div>
     </div>
   </mat-card>
-  <mat-card>
+  <mat-card *ngIf="this.extrapolatedSDGGains.size">
     <mat-card-title> Extrapolierte SDGs </mat-card-title>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div *ngFor="let SDG of this.extrapolatedSDGGains">
@@ -124,7 +124,13 @@
       </div>
     </div>
   </mat-card>
-  <mat-card>
+  <mat-card
+    *ngIf="
+      this.projectDescription ||
+      this.projectName ||
+      this.getSDGSelection().length
+    "
+  >
     <mat-card-title> Projektzusammenfassung </mat-card-title>
     <mat-card>
       <mat-card-title>
