@@ -1,3 +1,5 @@
+import { range } from "rxjs"
+
 const SDG_GAIN_CORRELATIONS = [
   [
     -Infinity,
@@ -322,7 +324,7 @@ const SDG_GAIN_CORRELATIONS = [
     -0.82567568,
     -Infinity,
   ],
-];
+]
 
 export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
   var results = new Set<number>()
@@ -334,19 +336,17 @@ export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
 
   var correlationValues: number[] = Object.assign(
     [],
-    SDG_GAIN_CORRELATIONS[SDGs.shift() ?? 0]
-  );
+    SDG_GAIN_CORRELATIONS[(SDGs.shift() ?? 0) - 1]
+  )
 
   for (var SDG of SDGs) {
-    for (var correlationValToAdd of SDG_GAIN_CORRELATIONS[SDG])
-      correlationValues[SDG] += correlationValToAdd;
+    SDG_GAIN_CORRELATIONS[SDG - 1].forEach((value, index) => correlationValues[index] += value)
   }
 
-
   for (var _ of [0, 1, 2]) {
-    let SDG:number = correlationValues.indexOf(Math.max(...correlationValues))
-    results.add(SDG);
-    correlationValues[SDG] = -Infinity;
+    let SDG: number = correlationValues.indexOf(Math.max(...correlationValues)) + 1
+    results.add(SDG)
+    correlationValues[SDG - 1] = -Infinity
   }
   return results
 }
