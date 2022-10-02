@@ -1,56 +1,57 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { OsdgDataService } from 'src/app/core/services/osdg-data.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { FormControl, FormGroup } from '@angular/forms'
+import { OsdgDataService } from 'src/app/core/services/osdg-data.service'
 import { extrapolateSDGGains } from 'src/app/core/sdg_extrapolation'
 
 @Component({
   selector: 'app-landingpage',
   templateUrl: './landingpage.component.html',
-  styleUrls: ['./landingpage.component.scss']
+  styleUrls: ['./landingpage.component.scss'],
 })
 export class LandingpageComponent implements OnInit {
-
   form: FormGroup = new FormGroup({
     projectName: new FormControl(''),
     projectDescription: new FormControl(''),
-  });
+  })
 
-  loginError: boolean = false;
+  loginError: boolean = false
 
-  @Output() submitEM = new EventEmitter();
+  @Output() submitEM = new EventEmitter()
 
-  public projectName:string = "";
-  public projectDescription:string = "";
+  public projectName: string = ''
+  public projectDescription: string = ''
 
-  public SDGs:number[] = [];
-  public detectedSDGSelection = new Set<number>();
-  public extrapolatedSDGGains = new Set<number>();
-  public extrapolatedSDGGainsSelection = new Set<number>();
+  public SDGs: number[] = []
+  public detectedSDGSelection = new Set<number>()
+  public extrapolatedSDGGains = new Set<number>()
+  public extrapolatedSDGGainsSelection = new Set<number>()
 
-  public getSDGSelection():number[] {
-    return [...this.detectedSDGSelection, ...this.extrapolatedSDGGainsSelection].sort((a, b) => a - b)
+  public getSDGSelection(): number[] {
+    return [
+      ...this.detectedSDGSelection,
+      ...this.extrapolatedSDGGainsSelection,
+    ].sort((a, b) => a - b)
   }
 
-  constructor(private osdgDataService: OsdgDataService) { }
+  constructor(private osdgDataService: OsdgDataService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   submit() {
     if (this.form.valid) {
-      this.submitEM.emit(this.form.value);
+      this.submitEM.emit(this.form.value)
     }
-    const { projectName, projectDescription } = this.form.value;
-    this.projectName = projectName;
-    this.projectDescription = projectDescription;
-    this.osdgDataService.setProjectName(projectName);
-    this.osdgDataService.setProjectDescription(projectDescription);
+    const { projectName, projectDescription } = this.form.value
+    this.projectName = projectName
+    this.projectDescription = projectDescription
+    this.osdgDataService.setProjectName(projectName)
+    this.osdgDataService.setProjectDescription(projectDescription)
     this.SDGs = this.osdgDataService.getSDGs()
   }
 
   addDetectedSDG(SDG: number) {
-      this.detectedSDGSelection.add(SDG)
-    }
+    this.detectedSDGSelection.add(SDG)
+  }
 
   deleteDetectedSDG(SDG: number) {
     this.detectedSDGSelection.delete(SDG)
@@ -58,7 +59,7 @@ export class LandingpageComponent implements OnInit {
 
   submitDetectedSDGs() {
     this.extrapolatedSDGGains = extrapolateSDGGains(this.detectedSDGSelection)
-    }
+  }
 
   addExtrapolatedSDGGain(SDG: number) {
     this.extrapolatedSDGGainsSelection.add(SDG)
@@ -67,5 +68,4 @@ export class LandingpageComponent implements OnInit {
   deleteExtrapolatedSDGGain(SDG: number) {
     this.extrapolatedSDGGainsSelection.delete(SDG)
   }
-
-  }
+}
