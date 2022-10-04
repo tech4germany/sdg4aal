@@ -27,10 +27,10 @@ export class LandingpageComponent implements OnInit {
   public extrapolatedSDGGainsSelection = new Set<number>()
 
   public getSDGSelection(): number[] {
-    return [
+    var result = new Set<number>([
       ...this.detectedSDGSelection,
-      ...this.extrapolatedSDGGainsSelection,
-    ].sort((a, b) => a - b)
+      ...this.extrapolatedSDGGainsSelection])
+    return [...result].sort((a, b) => a - b)
   }
 
   constructor(private osdgDataService: OsdgDataService) {}
