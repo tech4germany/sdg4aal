@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { ContentModule } from './content/content.module';
 import { ThemeModule } from './theme/theme.module';
 import { CoreModule } from './core/core.module';
@@ -13,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [AppComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ContentModule,
     AppRoutingModule,
     ThemeModule,

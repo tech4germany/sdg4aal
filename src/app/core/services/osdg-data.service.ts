@@ -1,33 +1,49 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { SelectMultipleControlValueAccessor } from '@angular/forms'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OsdgDataService {
+  public projectName: BehaviorSubject<string> = new BehaviorSubject('')
+  public projectDescription: BehaviorSubject<string> = new BehaviorSubject('')
 
-  public projectName: BehaviorSubject<string> = new BehaviorSubject("");
-  public projectDescription: BehaviorSubject<string> = new BehaviorSubject("");
+  constructor(private http: HttpClient) {}
 
-  constructor() { }
-
-  public setProjectName(projectName:string) {
-    this.projectName.next(projectName);
+  public setProjectName(projectName: string) {
+    this.projectName.next(projectName)
   }
 
   public getProjectName(): BehaviorSubject<string> {
-    return this.projectName;
+    return this.projectName
   }
 
-  public setProjectDescription(projectDescription:string) {
-    this.projectDescription.next(projectDescription);
+  public setProjectDescription(projectDescription: string) {
+    this.projectDescription.next(projectDescription)
   }
 
   public getProjectDescription(): BehaviorSubject<string> {
-    return this.projectDescription;
+    return this.projectDescription
   }
 
-  public getSDGs(): number[] {
-    return [4, 7, 16]
+  public createTask(): Observable<any> {
+    return this.http.post('http://localhost:8000/tasks/', {
+      text:
+        this.projectName.getValue() + ' ' + this.projectDescription.getValue(),
+    })
+  }
+
+  public retrieveTask(task_id: string): Observable<any> {
+    return this.http.get('http://localhost:8000/tasks/' + task_id + '/')
+  }
+
+  public unpackSDGsfromOsdgTask(data: any): Set<number> {
+    var results = new Set<number>()
+    for (var SDGTuple of data['document_sdg_labels']) {
+      results.add(+SDGTuple[0].slice(4))
+    }
+    return results
   }
 }
