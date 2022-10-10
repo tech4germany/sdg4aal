@@ -1,6 +1,10 @@
+<h1>Willkommen beim SDG-Checker!</h1>
 <div>
   <mat-card>
-    <mat-card-title>Willkommen beim SDG-fo(u)r-AAl</mat-card-title>
+    <mat-card-title>
+      Beschreiben Sie Ihre Projektidee und nennen Sie die Projektziele<br />
+      Schritt 1: Lassen Sie uns Ihre Projektziele mit den SDGs abgleichen
+    </mat-card-title>
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="submit()">
         <p>
@@ -8,9 +12,8 @@
             <input
               type="text"
               matInput
-              placeholder="Ihr Projektname"
-              formControlName="projectName"
-            />
+              placeholder="Projekttitel"
+              formControlName="projectName" />
           </mat-form-field>
         </p>
 
@@ -19,22 +22,29 @@
             <input
               type="text"
               matInput
-              placeholder="Ihre Projektbeschreibung"
-              formControlName="projectDescription"
-            />
+              placeholder="Projektbeschreibung"
+              formControlName="projectDescription" />
           </mat-form-field>
         </p>
 
         <div class="button">
           <button type="submit" (ngSubmit)="submit()" mat-button>
-            Auf SDGs durchleuchten
+            Auf SDGs prüfen
           </button>
         </div>
       </form>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="this.SDGs.length">
-    <mat-card-title> Erkannte SDGs </mat-card-title>
+  <mat-card *ngIf="this.SDGs.size">
+    <mat-card-title> Schritt 2: Identifizierte SDGs </mat-card-title>
+    <mat-card-subtitle>
+      Basierend auf Ihrer Projektbeschreibung hat unser Algorithmus
+      wissenschaftliche Datenbanken durchsucht.<br />
+      Unser SDG-Checker schlägt daher folgende SDGs für Ihre Projektziele
+      vor.<br />
+      Indem Sie die SDGs an- oder abwählen entscheiden Sie sich dafür, ob Sie
+      als relevant für Ihr Projekt einschätzen.
+    </mat-card-subtitle>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div *ngFor="let SDG of this.SDGs" class="button">
         <div *ngIf="!this.detectedSDGSelection.has(SDG)">
@@ -45,8 +55,7 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px"
-                />
+                  width="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -61,8 +70,7 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px"
-                />
+                  width="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -72,7 +80,7 @@
         <mat-card>
           <mat-card-content>
             <button type="button" (click)="submitDetectedSDGs()" mat-button>
-              Auswahl bestätigen
+              Auswahl übernehmen
             </button>
           </mat-card-content>
         </mat-card>
@@ -80,23 +88,29 @@
     </div>
   </mat-card>
   <mat-card *ngIf="this.extrapolatedSDGGains.size">
-    <mat-card-title> Extrapolierte SDGs </mat-card-title>
+    <mat-card-title> Schritt 3: SDG-Wirkungszusammenhänge </mat-card-title>
+    <mat-card-subtitle>
+      Rundum nachhaltig: SDGS können sich gegenseitig beeinflussen.<br />
+      Folgende SDGs könnten daher in Beziehung zu den bereits bestätigten SDGs
+      stehen.<br />
+      Informieren Sie sich zu den verschiedenen Zielen und entscheiden Sie, ob
+      diese tatsächlich relevant für Ihr Projekt sind, in dem Sie diese an- oder
+      abwählen.
+    </mat-card-subtitle>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div *ngFor="let SDG of this.extrapolatedSDGGains">
         <div *ngIf="!this.extrapolatedSDGGainsSelection.has(SDG)">
           <button
             type="button"
             (click)="addExtrapolatedSDGGain(SDG)"
-            mat-button
-          >
+            mat-button>
             <mat-card>
               <mat-card-title>SDG {{ SDG }}</mat-card-title>
               <mat-card-content>
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px"
-                />
+                  width="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -105,8 +119,7 @@
           <button
             type="button"
             (click)="deleteExtrapolatedSDGGain(SDG)"
-            mat-button
-          >
+            mat-button>
             <mat-card>
               <mat-card-title style="color: green"
                 >SDG {{ SDG }}</mat-card-title
@@ -115,8 +128,7 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px"
-                />
+                  width="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -126,33 +138,35 @@
   </mat-card>
   <mat-card
     *ngIf="
-      this.projectDescription ||
-      this.projectName ||
-      this.getSDGSelection().length
-    "
-  >
-    <mat-card-title> Projektzusammenfassung </mat-card-title>
+      this.extrapolatedSDGGainsSelection.size && this.detectedSDGSelection.size
+    ">
+    <mat-card-title
+      >Check! Sie haben Ihr Projekt rundum nachhaltig konzipiert</mat-card-title
+    >
     <mat-card>
-      <mat-card-title>
+      <mat-card-title> Ihre aktuelle Projektbeschreibung </mat-card-title>
+      <mat-card-subtitle>
         {{ this.projectName }}
-      </mat-card-title>
+      </mat-card-subtitle>
       <mat-card-content>
         {{ this.projectDescription }}
       </mat-card-content>
     </mat-card>
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div *ngFor="let SDG of this.getSDGSelection()">
-        <mat-card>
-          <mat-card-title>SDG {{ SDG }}</mat-card-title>
-          <mat-card-content>
-            <img
-              src="/assets/SDGs/{{ SDG }}.png"
-              alt="SDG {{ SDG }} icon"
-              width="90px"
-            />
-          </mat-card-content>
-        </mat-card>
+    <mat-card>
+      <mat-card-title>Diese SDGs sind Projektziele</mat-card-title>
+      <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div *ngFor="let SDG of this.getSDGSelection()">
+          <mat-card>
+            <mat-card-title>SDG {{ SDG }}</mat-card-title>
+            <mat-card-content>
+              <img
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="90px" />
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
-    </div>
+    </mat-card>
   </mat-card>
 </div>
