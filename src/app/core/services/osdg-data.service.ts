@@ -29,14 +29,14 @@ export class OsdgDataService {
   }
 
   public createTask(): Observable<any> {
-    return this.http.post('http://localhost:8000/tasks/', {
+    return this.http.post('https://osdg.sdg4aal.eu/tasks/', {
       text:
         this.projectName.getValue() + ' ' + this.projectDescription.getValue(),
     })
   }
 
   public retrieveTask(task_id: string): Observable<any> {
-    return this.http.get('http://localhost:8000/tasks/' + task_id + '/')
+    return this.http.get('https://osdg.sdg4aal.eu/tasks/' + task_id + '/')
   }
 
   public unpackSDGsfromOsdgTask(data: any): Set<number> {
