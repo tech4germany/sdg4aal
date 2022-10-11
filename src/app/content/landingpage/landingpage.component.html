@@ -168,5 +168,33 @@
         </div>
       </div>
     </mat-card>
+    <mat-card>
+      <mat-card-title
+        >Ihre rundum nachhaltigen Projektziele greibarer machen - mit
+        Indikatoren</mat-card-title
+      >
+      <mat-card-subtitle
+        >Um die Qualität Ihrer Projektidee im Antragsprozess zu erhöhen, ist die
+        Formulierun von SMART-en Indikatoren relevant.<br />
+        Hier werden Beispiele für Indikatoren vorgeschlagen, die den Erfolg
+        Ihrer Projektziele greifbar machen.
+      </mat-card-subtitle>
+
+      <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
+        <img
+          src="/assets/SDGs/{{ SDG }}.png"
+          alt="SDG {{ SDG }} icon"
+          height="90px"
+          width="90px" />
+        <ul>
+          <li
+            *ngFor="
+              let SDGtext of this.indicatorsService.getIndicatorsForSDG(SDG, 3)
+            ">
+            {{ SDGtext }}
+          </li>
+        </ul>
+      </div>
+    </mat-card>
   </mat-card>
 </div>

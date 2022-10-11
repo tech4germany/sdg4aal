@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { OsdgDataService } from 'src/app/core/services/osdg-data.service'
 import { extrapolateSDGGains } from 'src/app/core/sdg_extrapolation'
+import { IndicatorsService } from 'src/app/core/services/indicators.service'
 import { delay, map, retry, catchError, of, retryWhen, take } from 'rxjs'
 
 @Component({
@@ -35,7 +36,7 @@ export class LandingpageComponent implements OnInit {
     return [...result].sort((a, b) => a - b)
   }
 
-  constructor(private osdgDataService: OsdgDataService) {}
+  constructor(private osdgDataService: OsdgDataService, public indicatorsService: IndicatorsService) {}
 
   ngOnInit(): void {}
 

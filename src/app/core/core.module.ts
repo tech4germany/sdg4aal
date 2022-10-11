@@ -6,10 +6,11 @@ import {
   SkipSelf,
 } from '@angular/core';
 import { OsdgDataService } from './services/osdg-data.service';
-
+import { IndicatorsService } from './services/indicators.service';
 
 export const SERVICES = [
   OsdgDataService,
+  IndicatorsService,
 ];
 
 @NgModule({
