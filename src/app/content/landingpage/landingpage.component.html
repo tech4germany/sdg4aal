@@ -1,5 +1,7 @@
-<h1>Willkommen beim SDG-Checker!</h1>
-<div>
+<div class="content">
+  <mat-card>
+    <mat-card-title>Willkommen beim SDG-Checker!</mat-card-title>
+  </mat-card>
   <mat-card>
     <mat-card-title>
       Beschreiben Sie Ihre Projektidee und nennen Sie die Projektziele<br />
@@ -7,31 +9,30 @@
     </mat-card-title>
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <p>
-          <mat-form-field>
-            <input
-              type="text"
-              matInput
-              placeholder="Projekttitel"
-              formControlName="projectName" />
-          </mat-form-field>
-        </p>
+        <mat-form-field appearance="fill" style="display: unset">
+          <mat-label> Projekttitel </mat-label>
+          <input type="text" matInput formControlName="projectName" />
+        </mat-form-field>
 
-        <p>
-          <mat-form-field>
-            <input
-              type="text"
-              matInput
-              placeholder="Projektbeschreibung"
-              formControlName="projectDescription" />
-          </mat-form-field>
-        </p>
+        <mat-form-field appearance="fill" style="display: unset">
+          <mat-label>Projektbeschreibung</mat-label>
+          <textarea
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="10"
+            type="text"
+            matInput
+            formControlName="projectDescription">
+          </textarea>
+        </mat-form-field>
 
-        <div class="button">
-          <button type="submit" (ngSubmit)="submit()" mat-button>
-            Auf SDGs prüfen
-          </button>
-        </div>
+        <mat-card-actions>
+          <div class="button">
+            <button type="submit" (ngSubmit)="submit()" mat-stroked-button>
+              Auf SDGs prüfen
+            </button>
+          </div>
+        </mat-card-actions>
       </form>
     </mat-card-content>
   </mat-card>
@@ -55,7 +56,8 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px" />
+                  width="90px"
+                  height="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -70,22 +72,21 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px" />
+                  width="90px"
+                  height="90px" />
               </mat-card-content>
             </mat-card>
           </button>
         </div>
       </div>
-      <div *ngIf="this.detectedSDGSelection.size">
-        <mat-card>
-          <mat-card-content>
-            <button type="button" (click)="submitDetectedSDGs()" mat-button>
-              Auswahl übernehmen
-            </button>
-          </mat-card-content>
-        </mat-card>
-      </div>
     </div>
+    <mat-card-actions>
+      <div *ngIf="this.detectedSDGSelection.size">
+        <button type="button" (click)="submitDetectedSDGs()" mat-stroked-button>
+          Auswahl übernehmen
+        </button>
+      </div>
+    </mat-card-actions>
   </mat-card>
   <mat-card *ngIf="this.extrapolatedSDGGains.size">
     <mat-card-title> Schritt 3: SDG-Wirkungszusammenhänge </mat-card-title>
@@ -110,7 +111,8 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px" />
+                  width="90px"
+                  height="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -128,7 +130,8 @@
                 <img
                   src="/assets/SDGs/{{ SDG }}.png"
                   alt="SDG {{ SDG }} icon"
-                  width="90px" />
+                  width="90px"
+                  height="90px" />
               </mat-card-content>
             </mat-card>
           </button>
@@ -162,7 +165,8 @@
               <img
                 src="/assets/SDGs/{{ SDG }}.png"
                 alt="SDG {{ SDG }} icon"
-                width="90px" />
+                width="90px"
+                height="90px" />
             </mat-card-content>
           </mat-card>
         </div>
@@ -170,12 +174,12 @@
     </mat-card>
     <mat-card>
       <mat-card-title
-        >Ihre rundum nachhaltigen Projektziele greibarer machen - mit
+        >Ihre rundum nachhaltigen Projektziele greifbarer machen - mit
         Indikatoren</mat-card-title
       >
       <mat-card-subtitle
         >Um die Qualität Ihrer Projektidee im Antragsprozess zu erhöhen, ist die
-        Formulierun von SMART-en Indikatoren relevant.<br />
+        Formulierung von SMART-en Indikatoren relevant.<br />
         Hier werden Beispiele für Indikatoren vorgeschlagen, die den Erfolg
         Ihrer Projektziele greifbar machen.
       </mat-card-subtitle>
