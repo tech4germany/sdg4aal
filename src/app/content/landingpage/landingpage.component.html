@@ -36,7 +36,23 @@
       </form>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="this.SDGs.size">
+  <mat-card *ngIf="this.osdgQueryProgressing && !this.detectedSDGs.size">
+    <mat-spinner></mat-spinner>
+  </mat-card>
+  <mat-card
+    *ngIf="
+      this.projectDescription &&
+      !this.osdgQueryProgressing &&
+      !this.detectedSDGs.size
+    ">
+    <mat-card-title>
+      Leider konnten wir keine SDGs in deinem Vorhaben automatisiert erkennen.
+    </mat-card-title>
+    <mat-card-subtitle>
+      Bitte wähle die SDGs aus, die zu deinem Projekt passen.
+    </mat-card-subtitle>
+  </mat-card>
+  <mat-card *ngIf="this.detectedSDGs.size">
     <mat-card-title> Schritt 2: Identifizierte SDGs </mat-card-title>
     <mat-card-subtitle>
       Basierend auf Ihrer Projektbeschreibung hat unser Algorithmus
@@ -47,7 +63,7 @@
       als relevant für Ihr Projekt einschätzen.
     </mat-card-subtitle>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div *ngFor="let SDG of this.SDGs" class="button">
+      <div *ngFor="let SDG of this.detectedSDGs" class="button">
         <div *ngIf="!this.detectedSDGSelection.has(SDG)">
           <button type="button" (click)="addDetectedSDG(SDG)" mat-button>
             <mat-card>

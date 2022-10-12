@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { OsdgDataService } from 'src/app/core/services/osdg-data.service'
 import { extrapolateSDGGains } from 'src/app/core/sdg_extrapolation'
 import { IndicatorsService } from 'src/app/core/services/indicators.service'
-import { delay, map, retry, catchError, of, retryWhen, take } from 'rxjs'
+import { delay, filter, tap, retryWhen, take } from 'rxjs'
 
 @Component({
   selector: 'app-landingpage',
@@ -23,7 +23,8 @@ export class LandingpageComponent implements OnInit {
   public projectName: string = ''
   public projectDescription: string = ''
 
-  public SDGs = new Set<number>()
+  public osdgQueryProgressing: boolean = false
+  public detectedSDGs = new Set<number>()
   public detectedSDGSelection = new Set<number>()
   public extrapolatedSDGGains = new Set<number>()
   public extrapolatedSDGGainsSelection = new Set<number>()
@@ -36,7 +37,10 @@ export class LandingpageComponent implements OnInit {
     return [...result].sort((a, b) => a - b)
   }
 
-  constructor(private osdgDataService: OsdgDataService, public indicatorsService: IndicatorsService) {}
+  constructor(
+    private osdgDataService: OsdgDataService,
+    public indicatorsService: IndicatorsService,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -47,24 +51,36 @@ export class LandingpageComponent implements OnInit {
     const { projectName, projectDescription } = this.form.value
     this.projectName = projectName
     this.projectDescription = projectDescription
+    this.detectedSDGs.clear()
     this.osdgDataService.setProjectName(projectName)
     this.osdgDataService.setProjectDescription(projectDescription)
     this.osdgDataService.createTask().subscribe((data: any) =>
       this.osdgDataService
         .retrieveTask(data.task_id)
         .pipe(
-          map((data: any) => {
-            if (data['status'] != 'Completed') {
+          tap((data: any) => {
+            if (data['status'] == 'Error: Could not extract text') {
+              this.osdgQueryProgressing = false
+              console.log('Could not extract text')
+            }
+          }),
+          filter(
+            (data: any) => data['status'] != 'Error: Could not extract text'
+          )
+        )
+        .pipe(
+          tap((data: any) => {
+            if (data['status'] == 'Pending') {
+              this.osdgQueryProgressing = true
               console.log('Task was not completed.')
               throw new Error('Task incomplete!')
             }
-            return data
           }),
           retryWhen(errors => errors.pipe(delay(1000), take(60)))
         )
         .subscribe(
           (data: any) =>
-            (this.SDGs = this.osdgDataService.unpackSDGsfromOsdgTask(data))
+            (this.detectedSDGs = this.osdgDataService.unpackSDGsfromOsdgTask(data))
         )
     )
   }
