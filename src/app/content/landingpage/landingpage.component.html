@@ -155,10 +155,58 @@
       </div>
     </div>
   </mat-card>
-  <mat-card
-    *ngIf="
-      this.extrapolatedSDGGainsSelection.size && this.detectedSDGSelection.size
-    ">
+
+  <mat-card *ngIf="this.extrapolatedSDGGainsSelection.size">
+    <mat-card-title
+      >Schritt 4: Ergänzende Beschreibungen für die neuen
+      SDG-Projektziele</mat-card-title
+    >
+    <mat-card-subtitle>
+      Diese Zielbeschreibungen ergänzen Ihre anfängliche Projektbeschreibung.
+      Erläutern Sie jeweils wie Ihre Projektziele die ausgesuchten SDGs stärken
+      werden.</mat-card-subtitle
+    >
+    <mat-card-content>
+      <form
+        [formGroup]="SDGGainsExplanationsForm"
+        (ngSubmit)="submitSDGGainsExplanations()">
+        <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
+          <img
+            class="sdg-icon-list"
+            src="/assets/SDGs/{{ SDG }}.png"
+            alt="SDG {{ SDG }} icon"
+            height="90px"
+            width="90px" />
+          <mat-form-field appearance="fill">
+            <mat-label
+              >Bitte erklären Sie hier, mit welchem Projektziel das SDG
+              {{ SDG }} gestärkt wird</mat-label
+            >
+            <textarea
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="3"
+              type="text"
+              matInput
+              formControlName="SDG{{ SDG }}">
+            </textarea>
+          </mat-form-field>
+        </div>
+        <mat-card-actions>
+          <div class="button">
+            <button
+              type="submit"
+              (ngSubmit)="submitSDGGainsExplanations()"
+              mat-stroked-button>
+              Ziele übernehmen
+            </button>
+          </div>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="this.SDGGainsExplained">
     <mat-card-title
       >Check! Sie haben Ihr Projekt rundum nachhaltig konzipiert</mat-card-title
     >
@@ -173,19 +221,14 @@
     </mat-card>
     <mat-card>
       <mat-card-title>Diese SDGs sind Projektziele</mat-card-title>
-      <div fxLayout="row wrap" fxLayoutGap="16px grid">
-        <div *ngFor="let SDG of this.getSDGSelection()">
-          <mat-card>
-            <mat-card-title>SDG {{ SDG }}</mat-card-title>
-            <mat-card-content>
-              <img
-                src="/assets/SDGs/{{ SDG }}.png"
-                alt="SDG {{ SDG }} icon"
-                width="90px"
-                height="90px" />
-            </mat-card-content>
-          </mat-card>
-        </div>
+      <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
+        <img
+          class="sdg-icon-list"
+          src="/assets/SDGs/{{ SDG }}.png"
+          alt="SDG {{ SDG }} icon"
+          height="90px"
+          width="90px" />
+        {{ this.SDGGainsExplanations[SDG] }}
       </div>
     </mat-card>
     <mat-card>
@@ -202,6 +245,7 @@
 
       <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
         <img
+          class="sdg-icon-list"
           src="/assets/SDGs/{{ SDG }}.png"
           alt="SDG {{ SDG }} icon"
           height="90px"

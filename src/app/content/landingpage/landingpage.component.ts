@@ -16,8 +16,6 @@ export class LandingpageComponent implements OnInit {
     projectDescription: new FormControl(''),
   })
 
-  loginError: boolean = false
-
   @Output() submitEM = new EventEmitter()
 
   public projectName: string = ''
@@ -28,6 +26,29 @@ export class LandingpageComponent implements OnInit {
   public detectedSDGSelection = new Set<number>()
   public extrapolatedSDGGains = new Set<number>()
   public extrapolatedSDGGainsSelection = new Set<number>()
+
+  public SDGGainsExplanations = new Array<string>()
+  public SDGGainsExplained: boolean = false
+
+  SDGGainsExplanationsForm: FormGroup = new FormGroup({
+    SDG1: new FormControl(''),
+    SDG2: new FormControl(''),
+    SDG3: new FormControl(''),
+    SDG4: new FormControl(''),
+    SDG5: new FormControl(''),
+    SDG6: new FormControl(''),
+    SDG7: new FormControl(''),
+    SDG8: new FormControl(''),
+    SDG9: new FormControl(''),
+    SDG10: new FormControl(''),
+    SDG11: new FormControl(''),
+    SDG12: new FormControl(''),
+    SDG13: new FormControl(''),
+    SDG14: new FormControl(''),
+    SDG15: new FormControl(''),
+    SDG16: new FormControl(''),
+    SDG17: new FormControl(''),
+  })
 
   public getSDGSelection(): number[] {
     var result = new Set<number>([
@@ -79,7 +100,8 @@ export class LandingpageComponent implements OnInit {
         )
         .subscribe(
           (data: any) =>
-            (this.detectedSDGs = this.osdgDataService.unpackSDGsfromOsdgTask(data))
+            (this.detectedSDGs =
+              this.osdgDataService.unpackSDGsfromOsdgTask(data))
         )
     )
     this.osdgQueryProgressing = true
@@ -103,5 +125,45 @@ export class LandingpageComponent implements OnInit {
 
   deleteExtrapolatedSDGGain(SDG: number) {
     this.extrapolatedSDGGainsSelection.delete(SDG)
+  }
+
+  submitSDGGainsExplanations() {
+    const {
+      SDG1,
+      SDG2,
+      SDG3,
+      SDG4,
+      SDG5,
+      SDG6,
+      SDG7,
+      SDG8,
+      SDG9,
+      SDG10,
+      SDG11,
+      SDG12,
+      SDG13,
+      SDG14,
+      SDG15,
+      SDG16,
+      SDG17,
+    } = this.SDGGainsExplanationsForm.value
+    this.SDGGainsExplanations[1] = SDG1
+    this.SDGGainsExplanations[2] = SDG2
+    this.SDGGainsExplanations[3] = SDG3
+    this.SDGGainsExplanations[4] = SDG4
+    this.SDGGainsExplanations[5] = SDG5
+    this.SDGGainsExplanations[6] = SDG6
+    this.SDGGainsExplanations[7] = SDG7
+    this.SDGGainsExplanations[8] = SDG8
+    this.SDGGainsExplanations[9] = SDG9
+    this.SDGGainsExplanations[10] = SDG10
+    this.SDGGainsExplanations[11] = SDG11
+    this.SDGGainsExplanations[12] = SDG12
+    this.SDGGainsExplanations[13] = SDG13
+    this.SDGGainsExplanations[14] = SDG14
+    this.SDGGainsExplanations[15] = SDG15
+    this.SDGGainsExplanations[16] = SDG16
+    this.SDGGainsExplanations[17] = SDG17
+    this.SDGGainsExplained = true
   }
 }

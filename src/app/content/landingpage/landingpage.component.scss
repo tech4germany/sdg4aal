@@ -1,11 +1,20 @@
 .content {
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-top: 32px;
-    padding-bottom: 32px;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 .mat-card {
-    margin-top: 32px;
-    margin-bottom: 32px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.mat-form-field {
+  flex-grow: 2;
+}
+
+.sdg-icon-list {
+  margin-right: 16px;
+  margin-bottom: 16px;
 }
