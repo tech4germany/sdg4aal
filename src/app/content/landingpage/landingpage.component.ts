@@ -71,7 +71,6 @@ export class LandingpageComponent implements OnInit {
         .pipe(
           tap((data: any) => {
             if (data['status'] == 'Pending') {
-              this.osdgQueryProgressing = true
               console.log('Task was not completed.')
               throw new Error('Task incomplete!')
             }
@@ -83,6 +82,7 @@ export class LandingpageComponent implements OnInit {
             (this.detectedSDGs = this.osdgDataService.unpackSDGsfromOsdgTask(data))
         )
     )
+    this.osdgQueryProgressing = true
   }
 
   addDetectedSDG(SDG: number) {

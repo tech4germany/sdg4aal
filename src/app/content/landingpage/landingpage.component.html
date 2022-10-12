@@ -41,9 +41,9 @@
   </mat-card>
   <mat-card
     *ngIf="
-      this.projectDescription &&
       !this.osdgQueryProgressing &&
-      !this.detectedSDGs.size
+      !this.detectedSDGs.size &&
+      this.projectDescription
     ">
     <mat-card-title>
       Leider konnten wir keine SDGs in deinem Vorhaben automatisiert erkennen.
