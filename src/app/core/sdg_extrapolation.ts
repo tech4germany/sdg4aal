@@ -1,6 +1,6 @@
-import { range } from "rxjs"
+import { range } from 'rxjs'
 
-const SDG_GAIN_CORRELATIONS = [
+const RANDOM_CORRELATIONS = [
   [
     -Infinity,
     0.73716781,
@@ -326,7 +326,10 @@ const SDG_GAIN_CORRELATIONS = [
   ],
 ]
 
-export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
+export function extrapolateSDGs(
+  correlations: number[][],
+  originalSDGs: Set<number>
+): Set<number> {
   var results = new Set<number>()
   if (originalSDGs.size == 0) {
     return results
@@ -336,17 +339,28 @@ export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
 
   var correlationValues: number[] = Object.assign(
     [],
-    SDG_GAIN_CORRELATIONS[(SDGs.shift() ?? 0) - 1]
+    correlations[(SDGs.shift() ?? 0) - 1]
   )
 
   for (var SDG of SDGs) {
-    SDG_GAIN_CORRELATIONS[SDG - 1].forEach((value, index) => correlationValues[index] += value)
+    correlations[SDG - 1].forEach(
+      (value, index) => (correlationValues[index] += value)
+    )
   }
 
   for (var _ of [0, 1, 2]) {
-    let SDG: number = correlationValues.indexOf(Math.max(...correlationValues)) + 1
+    let SDG: number =
+      correlationValues.indexOf(Math.max(...correlationValues)) + 1
     results.add(SDG)
     correlationValues[SDG - 1] = -Infinity
   }
   return results
+}
+
+export function extrapolateSDGGains(originalSDGs: Set<number>): Set<number> {
+  return extrapolateSDGs(RANDOM_CORRELATIONS, originalSDGs)
+}
+
+export function extrapolateSDGHarms(originalSDGs: Set<number>): Set<number> {
+  return extrapolateSDGs(RANDOM_CORRELATIONS, originalSDGs)
 }
