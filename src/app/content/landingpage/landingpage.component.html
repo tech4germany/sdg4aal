@@ -51,6 +51,46 @@
     <mat-card-subtitle>
       Bitte wählen Sie die SDGs aus, die zu Ihrem Projekt passen.
     </mat-card-subtitle>
+    <div
+      *ngFor="
+        let SDG of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+      ">
+      <mat-checkbox
+        *ngIf="!this.detectedSDGSelection.has(SDG)"
+        (change)="this.addDetectedSDG(SDG)"
+        checked="false">
+        <mat-card class="sdg-card sdg-{{ SDG }}">
+          <img
+            style="margin-right: 8px"
+            src="/assets/SDGs/{{ SDG }}.png"
+            alt="SDG {{ SDG }} icon"
+            width="30px"
+            height="30px" />
+          <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+        </mat-card>
+      </mat-checkbox>
+      <mat-checkbox
+        *ngIf="this.detectedSDGSelection.has(SDG)"
+        (change)="this.deleteDetectedSDG(SDG)"
+        checked="true">
+        <mat-card class="sdg-card sdg-{{ SDG }}">
+          <img
+            style="margin-right: 8px"
+            src="/assets/SDGs/{{ SDG }}.png"
+            alt="SDG {{ SDG }} icon"
+            width="30px"
+            height="30px" />
+          <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+        </mat-card>
+      </mat-checkbox>
+    </div>
+    <mat-card-actions>
+      <div *ngIf="this.detectedSDGSelection.size">
+        <button type="button" (click)="submitDetectedSDGs()" mat-stroked-button>
+          Auswahl übernehmen
+        </button>
+      </div>
+    </mat-card-actions>
   </mat-card>
   <mat-card *ngIf="this.detectedSDGs.size">
     <mat-card-title> Schritt 2: Identifizierte SDGs </mat-card-title>

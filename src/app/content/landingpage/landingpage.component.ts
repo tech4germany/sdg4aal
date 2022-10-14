@@ -5,6 +5,28 @@ import { extrapolateSDGGains, extrapolateSDGHarms } from 'src/app/core/sdg_extra
 import { IndicatorsService } from 'src/app/core/services/indicators.service'
 import { delay, filter, tap, retryWhen, take } from 'rxjs'
 
+
+const SDG_TITLES_DE = [
+  "No one left behind",
+  "Keine Armut",
+  "Kein Hungen",
+  "Gesundheit und Wohlergehen",
+  "Hochwertige Bildung",
+  "Geschlechtergerechtigkeit",
+  "Sauberes Wasser und Sanitäreinrichtungen",
+  "Bezahlbare und saubere Energie",
+  "Menschenwürdige Arbeit und Wirtschaftswachstum",
+  "Industrie, Innovation und Infrastruktur",
+  "Weniger Ungleichheiten",
+  "Nachhaltige Städte und Gemeinden",
+  "Verantwortungsvoller Konsum und Produktion",
+  "Maßnahmen zum Klimaschutz",
+  "Leben unter Wasser",
+  "Leben an Land",
+  "Frieden, Gerechtigkeit und starke Institutionen",
+  "Partnerschaften zur Erreichung der Ziele",
+]
+
 @Component({
   selector: 'app-landingpage',
   templateUrl: './landingpage.component.html',
@@ -75,6 +97,13 @@ export class LandingpageComponent implements OnInit {
     SDG16: new FormControl(''),
     SDG17: new FormControl(''),
   })
+
+  public getSDGTitles(language_code: string): string[] {
+    if (language_code === 'de') {
+      return SDG_TITLES_DE
+    }
+    return []
+  }
 
   public getSDGSelection(): number[] {
     var result = new Set<number>([
