@@ -302,7 +302,9 @@
         stärken werden.</mat-card-subtitle
       >
       <mat-card-content>
-        <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
+        <div
+          style="display: flex; align-items: center"
+          *ngFor="let SDG of this.getSDGSelection()">
           <img
             class="sdg-icon-list"
             src="/assets/SDGs/{{ SDG }}.png"
@@ -317,7 +319,7 @@
             <textarea
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="3"
+              cdkAutosizeMinRows="5"
               type="text"
               matInput
               formControlName="SDG{{ SDG }}">
@@ -448,7 +450,7 @@
       >
       <mat-card-content>
         <div
-          style="display: flex"
+          style="display: flex; align-items: center"
           *ngFor="let SDG of this.extrapolatedSDGHarmsSelection">
           <img
             class="sdg-icon-list"
@@ -464,7 +466,7 @@
             <textarea
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="3"
+              cdkAutosizeMinRows="5"
               type="text"
               matInput
               formControlName="SDG{{ SDG }}">
@@ -498,31 +500,41 @@
     </mat-card>
     <mat-card>
       <mat-card-title>Diese SDGs sind Projektziele</mat-card-title>
-      <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
-        <img
-          class="sdg-icon-list"
-          src="/assets/SDGs/{{ SDG }}.png"
-          alt="SDG {{ SDG }} icon"
-          height="90px"
-          width="90px" />
-        {{ this.SDGGainsExplanations[SDG] }}
-      </div>
+      <mat-card-content>
+        <mat-divider style="margin-bottom: 16px"></mat-divider>
+        <div *ngFor="let SDG of this.getSDGSelection()">
+          <div style="display: flex; align-items: center">
+            <img
+              class="sdg-icon-list"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              height="90px"
+              width="90px" />
+            {{ this.SDGGainsExplanations[SDG] }}
+          </div>
+          <mat-divider style="margin-bottom: 16px"></mat-divider>
+        </div>
+      </mat-card-content>
     </mat-card>
     <mat-card>
       <mat-card-title
         >Diese SDGs werden durch das Projekt nicht gefährdet</mat-card-title
       >
-      <div
-        style="display: flex"
-        *ngFor="let SDG of this.extrapolatedSDGHarmsSelection">
-        <img
-          class="sdg-icon-list"
-          src="/assets/SDGs/{{ SDG }}.png"
-          alt="SDG {{ SDG }} icon"
-          height="90px"
-          width="90px" />
-        {{ this.SDGHarmsExplanations[SDG] }}
-      </div>
+      <mat-card-content>
+        <mat-divider style="margin-bottom: 16px"></mat-divider>
+        <div *ngFor="let SDG of this.extrapolatedSDGHarmsSelection">
+          <div style="display: flex; align-items: center">
+            <img
+              class="sdg-icon-list"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              height="90px"
+              width="90px" />
+            {{ this.SDGHarmsExplanations[SDG] }}
+          </div>
+          <mat-divider style="margin-bottom: 16px"></mat-divider>
+        </div>
+      </mat-card-content>
     </mat-card>
     <mat-card>
       <mat-card-title
@@ -535,23 +547,32 @@
         Hier werden Beispiele für Indikatoren vorgeschlagen, die den Erfolg
         Ihrer Projektziele greifbar machen.
       </mat-card-subtitle>
+      <mat-card-content>
+        <mat-divider style="margin-bottom: 16px"></mat-divider>
 
-      <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
-        <img
-          class="sdg-icon-list"
-          src="/assets/SDGs/{{ SDG }}.png"
-          alt="SDG {{ SDG }} icon"
-          height="90px"
-          width="90px" />
-        <ul>
-          <li
-            *ngFor="
-              let SDGtext of this.indicatorsService.getIndicatorsForSDG(SDG, 3)
-            ">
-            {{ SDGtext }}
-          </li>
-        </ul>
-      </div>
+        <div *ngFor="let SDG of this.getSDGSelection()">
+          <div style="display: flex; align-items: center">
+            <img
+              class="sdg-icon-list"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              height="90px"
+              width="90px" />
+            <ul style="padding-left: 8px">
+              <li
+                *ngFor="
+                  let SDGtext of this.indicatorsService.getIndicatorsForSDG(
+                    SDG,
+                    3
+                  )
+                ">
+                {{ SDGtext }}
+              </li>
+            </ul>
+          </div>
+          <mat-divider style="margin-bottom: 16px"></mat-divider>
+        </div>
+      </mat-card-content>
     </mat-card>
   </mat-card>
 </div>

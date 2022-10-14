@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatExpansionModule } from '@angular/material/expansion'
+import { MatDividerModule } from '@angular/material/divider'
 
 const MATERIAL_MODULES = [
     MatFormFieldModule,
@@ -15,6 +16,7 @@ const MATERIAL_MODULES = [
     MatProgressBarModule,
     MatCheckboxModule,
     MatExpansionModule,
+    MatDividerModule,
 ]
 
 @NgModule({
