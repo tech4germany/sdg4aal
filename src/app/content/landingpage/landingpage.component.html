@@ -2,13 +2,14 @@
   <mat-card>
     <mat-card-title>Willkommen beim SDG-Checker!</mat-card-title>
   </mat-card>
-  <mat-card>
-    <mat-card-title>
-      Beschreiben Sie Ihre Projektidee und nennen Sie die Projektziele<br />
-      Schritt 1: Lassen Sie uns Ihre Projektziele mit den SDGs abgleichen
-    </mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="submit()">
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card>
+      <mat-card-title>
+        Beschreiben Sie Ihre Projektidee und nennen Sie die Projektziele<br />
+        Schritt 1: Lassen Sie uns Ihre Projektziele mit den SDGs abgleichen
+      </mat-card-title>
+      <mat-card-content>
         <mat-form-field appearance="fill" style="display: unset">
           <mat-label> Projekttitel </mat-label>
           <input type="text" matInput formControlName="projectName" />
@@ -25,17 +26,15 @@
             formControlName="projectDescription">
           </textarea>
         </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button type="submit" (ngSubmit)="submit()" mat-stroked-button>
+          Auf SDGs prüfen
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 
-        <mat-card-actions>
-          <div class="button">
-            <button type="submit" (ngSubmit)="submit()" mat-stroked-button>
-              Auf SDGs prüfen
-            </button>
-          </div>
-        </mat-card-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
   <mat-card *ngIf="this.osdgQueryProgressing && !this.detectedSDGs.size">
     <mat-spinner></mat-spinner>
   </mat-card>
@@ -84,12 +83,10 @@
         </mat-card>
       </mat-checkbox>
     </div>
-    <mat-card-actions>
-      <div *ngIf="this.detectedSDGSelection.size">
-        <button type="button" (click)="submitDetectedSDGs()" mat-stroked-button>
-          Auswahl übernehmen
-        </button>
-      </div>
+    <mat-card-actions *ngIf="this.detectedSDGSelection.size">
+      <button type="button" (click)="submitDetectedSDGs()" mat-stroked-button>
+        Auswahl übernehmen
+      </button>
     </mat-card-actions>
   </mat-card>
   <mat-card *ngIf="this.detectedSDGs.size">
@@ -102,46 +99,93 @@
       Indem Sie die SDGs an- oder abwählen entscheiden Sie sich dafür, ob Sie
       als relevant für Ihr Projekt einschätzen.
     </mat-card-subtitle>
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div *ngFor="let SDG of this.detectedSDGs" class="button">
-        <div *ngIf="!this.detectedSDGSelection.has(SDG)">
-          <button type="button" (click)="addDetectedSDG(SDG)" mat-button>
-            <mat-card>
-              <mat-card-title>SDG {{ SDG }}</mat-card-title>
-              <mat-card-content>
-                <img
-                  src="/assets/SDGs/{{ SDG }}.png"
-                  alt="SDG {{ SDG }} icon"
-                  width="90px"
-                  height="90px" />
-              </mat-card-content>
-            </mat-card>
-          </button>
-        </div>
-        <div *ngIf="this.detectedSDGSelection.has(SDG)">
-          <button type="button" (click)="deleteDetectedSDG(SDG)" mat-button>
-            <mat-card>
-              <mat-card-title style="color: green"
-                >SDG {{ SDG }}</mat-card-title
-              >
-              <mat-card-content>
-                <img
-                  src="/assets/SDGs/{{ SDG }}.png"
-                  alt="SDG {{ SDG }} icon"
-                  width="90px"
-                  height="90px" />
-              </mat-card-content>
-            </mat-card>
-          </button>
-        </div>
+    <mat-card-content>
+      <div
+        *ngFor="
+          let SDG of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+        ">
+        <mat-checkbox
+          *ngIf="
+            this.detectedSDGs.has(SDG) && !this.detectedSDGSelection.has(SDG)
+          "
+          (change)="this.addDetectedSDG(SDG)"
+          checked="false">
+          <mat-card class="sdg-card sdg-{{ SDG }}">
+            <img
+              style="margin-right: 8px"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="30px"
+              height="30px" />
+            <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+          </mat-card>
+        </mat-checkbox>
+        <mat-checkbox
+          *ngIf="
+            this.detectedSDGs.has(SDG) && this.detectedSDGSelection.has(SDG)
+          "
+          (change)="this.deleteDetectedSDG(SDG)"
+          checked="true">
+          <mat-card class="sdg-card sdg-{{ SDG }}">
+            <img
+              style="margin-right: 8px"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="30px"
+              height="30px" />
+            <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+          </mat-card>
+        </mat-checkbox>
       </div>
-    </div>
-    <mat-card-actions>
-      <div *ngIf="this.detectedSDGSelection.size">
-        <button type="button" (click)="submitDetectedSDGs()" mat-stroked-button>
-          Auswahl übernehmen
-        </button>
-      </div>
+      <mat-expansion-panel style="margin-left: 32px; margin-top: 8px">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Weitere SDGs zur Auswahl </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div
+          *ngFor="
+            let SDG of [
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+            ]
+          ">
+          <mat-checkbox
+            *ngIf="
+              !this.detectedSDGs.has(SDG) && !this.detectedSDGSelection.has(SDG)
+            "
+            (change)="this.addDetectedSDG(SDG)"
+            checked="false">
+            <mat-card class="sdg-card sdg-{{ SDG }}">
+              <img
+                style="margin-right: 8px"
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="30px"
+                height="30px" />
+              <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+            </mat-card>
+          </mat-checkbox>
+          <mat-checkbox
+            *ngIf="
+              !this.detectedSDGs.has(SDG) && this.detectedSDGSelection.has(SDG)
+            "
+            (change)="this.deleteDetectedSDG(SDG)"
+            checked="true">
+            <mat-card class="sdg-card sdg-{{ SDG }}">
+              <img
+                style="margin-right: 8px"
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="30px"
+                height="30px" />
+              <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+            </mat-card>
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-content>
+    <mat-card-actions *ngIf="this.detectedSDGSelection.size">
+      <button type="button" (click)="submitDetectedSDGs()" mat-stroked-button>
+        Auswahl übernehmen
+      </button>
     </mat-card-actions>
   </mat-card>
   <mat-card *ngIf="this.extrapolatedSDGGains.size">
@@ -154,62 +198,110 @@
       diese tatsächlich relevant für Ihr Projekt sind, in dem Sie diese an- oder
       abwählen.
     </mat-card-subtitle>
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div *ngFor="let SDG of this.extrapolatedSDGGains">
-        <div *ngIf="!this.extrapolatedSDGGainsSelection.has(SDG)">
-          <button
-            type="button"
-            (click)="addExtrapolatedSDGGain(SDG)"
-            mat-button>
-            <mat-card>
-              <mat-card-title>SDG {{ SDG }}</mat-card-title>
-              <mat-card-content>
-                <img
-                  src="/assets/SDGs/{{ SDG }}.png"
-                  alt="SDG {{ SDG }} icon"
-                  width="90px"
-                  height="90px" />
-              </mat-card-content>
-            </mat-card>
-          </button>
-        </div>
-        <div *ngIf="this.extrapolatedSDGGainsSelection.has(SDG)">
-          <button
-            type="button"
-            (click)="deleteExtrapolatedSDGGain(SDG)"
-            mat-button>
-            <mat-card>
-              <mat-card-title style="color: green"
-                >SDG {{ SDG }}</mat-card-title
-              >
-              <mat-card-content>
-                <img
-                  src="/assets/SDGs/{{ SDG }}.png"
-                  alt="SDG {{ SDG }} icon"
-                  width="90px"
-                  height="90px" />
-              </mat-card-content>
-            </mat-card>
-          </button>
-        </div>
+    <mat-card-content>
+      <div
+        *ngFor="
+          let SDG of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+        ">
+        <mat-checkbox
+          *ngIf="
+            this.extrapolatedSDGGains.has(SDG) &&
+            !this.extrapolatedSDGGainsSelection.has(SDG)
+          "
+          (change)="this.addExtrapolatedSDGGain(SDG)"
+          checked="false">
+          <mat-card class="sdg-card sdg-{{ SDG }}">
+            <img
+              style="margin-right: 8px"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="30px"
+              height="30px" />
+            <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+          </mat-card>
+        </mat-checkbox>
+        <mat-checkbox
+          *ngIf="
+            this.extrapolatedSDGGains.has(SDG) &&
+            this.extrapolatedSDGGainsSelection.has(SDG)
+          "
+          (change)="this.deleteExtrapolatedSDGGain(SDG)"
+          checked="true">
+          <mat-card class="sdg-card sdg-{{ SDG }}">
+            <img
+              style="margin-right: 8px"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="30px"
+              height="30px" />
+            <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+          </mat-card>
+        </mat-checkbox>
       </div>
-    </div>
+      <mat-expansion-panel style="margin-left: 32px; margin-top: 8px">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Weitere SDGs zur Auswahl </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div
+          *ngFor="
+            let SDG of [
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+            ]
+          ">
+          <mat-checkbox
+            *ngIf="
+              !this.extrapolatedSDGGains.has(SDG) &&
+              !this.extrapolatedSDGGainsSelection.has(SDG)
+            "
+            (change)="this.addExtrapolatedSDGGain(SDG)"
+            checked="false">
+            <mat-card class="sdg-card sdg-{{ SDG }}">
+              <img
+                style="margin-right: 8px"
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="30px"
+                height="30px" />
+              <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+            </mat-card>
+          </mat-checkbox>
+          <mat-checkbox
+            *ngIf="
+              !this.extrapolatedSDGGains.has(SDG) &&
+              this.extrapolatedSDGGainsSelection.has(SDG)
+            "
+            (change)="this.deleteExtrapolatedSDGGain(SDG)"
+            checked="true">
+            <mat-card class="sdg-card sdg-{{ SDG }}">
+              <img
+                style="margin-right: 8px"
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="30px"
+                height="30px" />
+              <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+            </mat-card>
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="this.extrapolatedSDGGainsSelection.size">
-    <mat-card-title
-      >Schritt 4: Ergänzende Beschreibungen für die neuen
-      SDG-Projektziele</mat-card-title
-    >
-    <mat-card-subtitle>
-      Diese Zielbeschreibungen ergänzen Ihre anfängliche Projektbeschreibung.
-      Erläutern Sie jeweils wie Ihre Projektziele die ausgesuchten SDGs stärken
-      werden.</mat-card-subtitle
-    >
-    <mat-card-content>
-      <form
-        [formGroup]="SDGGainsExplanationsForm"
-        (ngSubmit)="submitSDGGainsExplanations()">
+  <form
+    *ngIf="this.extrapolatedSDGGainsSelection.size"
+    [formGroup]="SDGGainsExplanationsForm"
+    (ngSubmit)="submitSDGGainsExplanations()">
+    <mat-card>
+      <mat-card-title
+        >Schritt 4: Ergänzende Beschreibungen für die neuen
+        SDG-Projektziele</mat-card-title
+      >
+      <mat-card-subtitle>
+        Diese Zielbeschreibungen ergänzen Ihre anfängliche Projektbeschreibung.
+        Erläutern Sie jeweils wie Ihre Projektziele die ausgesuchten SDGs
+        stärken werden.</mat-card-subtitle
+      >
+      <mat-card-content>
         <div style="display: flex" *ngFor="let SDG of this.getSDGSelection()">
           <img
             class="sdg-icon-list"
@@ -232,19 +324,18 @@
             </textarea>
           </mat-form-field>
         </div>
-        <mat-card-actions>
-          <div class="button">
-            <button
-              type="submit"
-              (ngSubmit)="submitSDGGainsExplanations()"
-              mat-stroked-button>
-              Ziele übernehmen
-            </button>
-          </div>
-        </mat-card-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          type="submit"
+          (ngSubmit)="submitSDGGainsExplanations()"
+          mat-stroked-button>
+          Ziele übernehmen
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 
   <mat-card *ngIf="this.SDGGainsExplained">
     <mat-card-title>Schritt 5: Keine Verletzung von SDGs</mat-card-title>
@@ -255,57 +346,107 @@
       Informiere Sie sich zu den Zusammenhängen und wählen Sie relevante SDGs
       bewusst ab oder an.
     </mat-card-subtitle>
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div *ngFor="let SDG of this.extrapolatedSDGHarms">
-        <div *ngIf="!this.extrapolatedSDGHarmsSelection.has(SDG)">
-          <button
-            type="button"
-            (click)="addExtrapolatedSDGHarm(SDG)"
-            mat-button>
-            <mat-card>
-              <mat-card-title>SDG {{ SDG }}</mat-card-title>
-              <mat-card-content>
-                <img
-                  src="/assets/SDGs/{{ SDG }}.png"
-                  alt="SDG {{ SDG }} icon"
-                  width="90px"
-                  height="90px" />
-              </mat-card-content>
-            </mat-card>
-          </button>
-        </div>
-        <div *ngIf="this.extrapolatedSDGHarmsSelection.has(SDG)">
-          <button
-            type="button"
-            (click)="deleteExtrapolatedSDGHarm(SDG)"
-            mat-button>
-            <mat-card>
-              <mat-card-title style="color: red">SDG {{ SDG }}</mat-card-title>
-              <mat-card-content>
-                <img
-                  src="/assets/SDGs/{{ SDG }}.png"
-                  alt="SDG {{ SDG }} icon"
-                  width="90px"
-                  height="90px" />
-              </mat-card-content>
-            </mat-card>
-          </button>
-        </div>
+    <mat-card-content>
+      <div
+        *ngFor="
+          let SDG of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+        ">
+        <mat-checkbox
+          *ngIf="
+            this.extrapolatedSDGHarms.has(SDG) &&
+            !this.extrapolatedSDGHarmsSelection.has(SDG)
+          "
+          (change)="this.addExtrapolatedSDGHarm(SDG)"
+          checked="false">
+          <mat-card class="sdg-card sdg-{{ SDG }}">
+            <img
+              style="margin-right: 8px"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="30px"
+              height="30px" />
+            <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+          </mat-card>
+        </mat-checkbox>
+        <mat-checkbox
+          *ngIf="
+            this.extrapolatedSDGHarms.has(SDG) &&
+            this.extrapolatedSDGHarmsSelection.has(SDG)
+          "
+          (change)="this.deleteExtrapolatedSDGHarm(SDG)"
+          checked="true">
+          <mat-card class="sdg-card sdg-{{ SDG }}">
+            <img
+              style="margin-right: 8px"
+              src="/assets/SDGs/{{ SDG }}.png"
+              alt="SDG {{ SDG }} icon"
+              width="30px"
+              height="30px" />
+            <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+          </mat-card>
+        </mat-checkbox>
       </div>
-    </div>
+      <mat-expansion-panel style="margin-left: 32px; margin-top: 8px">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Weitere SDGs zur Auswahl </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div
+          *ngFor="
+            let SDG of [
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+            ]
+          ">
+          <mat-checkbox
+            *ngIf="
+              !this.extrapolatedSDGHarms.has(SDG) &&
+              !this.extrapolatedSDGHarmsSelection.has(SDG)
+            "
+            (change)="this.addExtrapolatedSDGHarm(SDG)"
+            checked="false">
+            <mat-card class="sdg-card sdg-{{ SDG }}">
+              <img
+                style="margin-right: 8px"
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="30px"
+                height="30px" />
+              <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+            </mat-card>
+          </mat-checkbox>
+          <mat-checkbox
+            *ngIf="
+              !this.extrapolatedSDGHarms.has(SDG) &&
+              this.extrapolatedSDGHarmsSelection.has(SDG)
+            "
+            (change)="this.deleteExtrapolatedSDGHarm(SDG)"
+            checked="true">
+            <mat-card class="sdg-card sdg-{{ SDG }}">
+              <img
+                style="margin-right: 8px"
+                src="/assets/SDGs/{{ SDG }}.png"
+                alt="SDG {{ SDG }} icon"
+                width="30px"
+                height="30px" />
+              <div>{{ SDG }}. {{ this.getSDGTitles('de')[SDG] }}</div>
+            </mat-card>
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="this.extrapolatedSDGHarmsSelection.size">
-    <mat-card-title>Schritt 6: SDGs Schutzmaßnahmen </mat-card-title>
-    <mat-card-subtitle>
-      Ihre Beschreibung der Schutzmaßnahmen ergänzt Ihre anfängliche
-      Projektbeschreibung. Erläutern Sie jeweils wie Sie die Verletzung des
-      ausgesuchten SDGs verhindern.</mat-card-subtitle
-    >
-    <mat-card-content>
-      <form
-        [formGroup]="SDGHarmsExplanationsForm"
-        (ngSubmit)="submitSDGHarmsExplanations()">
+  <form
+    *ngIf="this.extrapolatedSDGHarmsSelection.size"
+    [formGroup]="SDGHarmsExplanationsForm"
+    (ngSubmit)="submitSDGHarmsExplanations()">
+    <mat-card>
+      <mat-card-title>Schritt 6: SDGs Schutzmaßnahmen </mat-card-title>
+      <mat-card-subtitle>
+        Ihre Beschreibung der Schutzmaßnahmen ergänzt Ihre anfängliche
+        Projektbeschreibung. Erläutern Sie jeweils wie Sie die Verletzung des
+        ausgesuchten SDGs verhindern.</mat-card-subtitle
+      >
+      <mat-card-content>
         <div
           style="display: flex"
           *ngFor="let SDG of this.extrapolatedSDGHarmsSelection">
@@ -330,19 +471,17 @@
             </textarea>
           </mat-form-field>
         </div>
-        <mat-card-actions>
-          <div class="button">
-            <button
-              type="submit"
-              (ngSubmit)="submitSDGHarmsExplanations()"
-              mat-stroked-button>
-              Maßnahmen übernehmen
-            </button>
-          </div>
-        </mat-card-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          type="submit"
+          (ngSubmit)="submitSDGHarmsExplanations()"
+          mat-stroked-button>
+          Maßnahmen übernehmen
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 
   <mat-card *ngIf="this.SDGHarmsExplained">
     <mat-card-title
