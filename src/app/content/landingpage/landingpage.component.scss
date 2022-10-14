@@ -24,10 +24,36 @@ $color-sdg-list: $color-sdg1, $color-sdg2, $color-sdg3, $color-sdg4, $color-sdg5
   $color-sdg17;
 
 .content {
-  padding-left: 20%;
-  padding-right: 20%;
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media only screen and (min-width: 600px) {
+  .content {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .content {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .content {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .content {
+    padding-left: 25%;
+    padding-right: 25%;
+  }
 }
 
 .mat-card {
