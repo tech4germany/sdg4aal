@@ -9,7 +9,7 @@ import { delay, filter, tap, retryWhen, take } from 'rxjs'
 const SDG_TITLES_DE = [
   "No one left behind",
   "Keine Armut",
-  "Kein Hungen",
+  "Kein Hunger",
   "Gesundheit und Wohlergehen",
   "Hochwertige Bildung",
   "Geschlechtergerechtigkeit",
