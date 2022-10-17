@@ -153,11 +153,10 @@ export class LandingpageComponent implements OnInit {
           }),
           retryWhen(errors => errors.pipe(delay(1000), take(60)))
         )
-        .subscribe(
-          (data: any) =>
-            (this.detectedSDGs =
-              this.osdgDataService.unpackSDGsfromOsdgTask(data))
-        )
+        .subscribe((data: any) => {
+          this.detectedSDGs = this.osdgDataService.unpackSDGsfromOsdgTask(data)
+          this.osdgQueryProgressing = false
+        })
     )
     this.osdgQueryProgressing = true
   }
