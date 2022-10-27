@@ -1,6 +1,17 @@
-# Sdg4aal
+# SDG4AAL
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.1.
+This project is a simple Angular app, which tries to demonstrate that it is possible to combine existing services such as OSDG.ai
+and current research on the SDGs to make their complexities and interconnectedness easier to grasp for potential funding applicants.
+
+It has been developed as part of Tech4Germany 2022 in cooperation with the German Foreign Ministry.
+
+As a demo-MVP it is not intended for productive use or further development. There has been no effort towards testing or maintainability.
+
+## Architecture and data management
+
+The app itself is frontend-only, there is no backend for user management or data storage.
+The project title and description are sent via a [proxy](https://github.com/tech4germany/osdg-proxy) to the OSDG.ai API, which evaluates them for SDGs.
+All other logic and data is contained in the end user's browser.
 
 ## Development server
 
@@ -14,14 +25,19 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Deployment
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+During development and as a demo, the app is hosted on Firebase,
+which is trivial to set up.
+The Firebase configs are included in this repo, but you'll have to adjust the Firebase project.
 
-## Running end-to-end tests
+If you have the Firebase tooling installed, you can bring your current workspace online via:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+`ng build && firebase deploy`
 
-## Further help
+### OSDG.ai API proxy
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Due to the lack of TLS and limited authentication options OSDG.ai offers,
+all requests towards it need to be sent unauthenticated through a proxy.
+The app is currently hardcoded to use the proxy at https://osdg.sdg4aal.eu
+The OSDG-proxy project is also available on GitHub: https://github.com/tech4germany/osdg-proxy
