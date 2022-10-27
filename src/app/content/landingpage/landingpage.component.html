@@ -6,8 +6,10 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <mat-card>
       <mat-card-title>
-        Beschreiben Sie Ihre Projektidee und nennen Sie die Projektziele<br />
         Schritt 1: Lassen Sie uns Ihre Projektziele mit den SDGs abgleichen
+        <mat-card-subtitle>
+          Beschreiben Sie Ihre Projektidee und nennen Sie die Projektziele
+        </mat-card-subtitle>
       </mat-card-title>
       <mat-card-content>
         <mat-form-field appearance="fill" style="display: unset">
@@ -442,7 +444,7 @@
     [formGroup]="SDGHarmsExplanationsForm"
     (ngSubmit)="submitSDGHarmsExplanations()">
     <mat-card>
-      <mat-card-title>Schritt 6: SDGs Schutzmaßnahmen </mat-card-title>
+      <mat-card-title>Schritt 6: SDG-Schutzmaßnahmen </mat-card-title>
       <mat-card-subtitle>
         Ihre Beschreibung der Schutzmaßnahmen ergänzt Ihre anfängliche
         Projektbeschreibung. Erläutern Sie jeweils wie Sie die Verletzung des
@@ -536,43 +538,43 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card>
-      <mat-card-title
-        >Ihre rundum nachhaltigen Projektziele greifbarer machen - mit
-        Indikatoren</mat-card-title
-      >
-      <mat-card-subtitle
-        >Um die Qualität Ihrer Projektidee im Antragsprozess zu erhöhen, ist die
-        Formulierung von SMART-en Indikatoren relevant.<br />
-        Hier werden Beispiele für Indikatoren vorgeschlagen, die den Erfolg
-        Ihrer Projektziele greifbar machen.
-      </mat-card-subtitle>
-      <mat-card-content>
-        <mat-divider style="margin-bottom: 16px"></mat-divider>
+  </mat-card>
+  <mat-card *ngIf="this.SDGHarmsExplained">
+    <mat-card-title
+      >Ihre rundum nachhaltigen Projektziele greifbarer machen - mit
+      Indikatoren</mat-card-title
+    >
+    <mat-card-subtitle
+      >Um die Qualität Ihrer Projektidee im Antragsprozess zu erhöhen, ist die
+      Formulierung von SMART-en Indikatoren relevant.<br />
+      Hier werden Beispiele für Indikatoren vorgeschlagen, die den Erfolg Ihrer
+      Projektziele greifbar machen.
+    </mat-card-subtitle>
+    <mat-card-content>
+      <mat-divider style="margin-bottom: 16px"></mat-divider>
 
-        <div *ngFor="let SDG of this.getSDGSelection()">
-          <div style="display: flex; align-items: center">
-            <img
-              class="sdg-icon-list"
-              src="/assets/SDGs/{{ SDG }}.png"
-              alt="SDG {{ SDG }} icon"
-              height="90px"
-              width="90px" />
-            <ul style="padding-left: 8px">
-              <li
-                *ngFor="
-                  let SDGtext of this.indicatorsService.getIndicatorsForSDG(
-                    SDG,
-                    3
-                  )
-                ">
-                {{ SDGtext }}
-              </li>
-            </ul>
-          </div>
-          <mat-divider style="margin-bottom: 16px"></mat-divider>
+      <div *ngFor="let SDG of this.getSDGSelection()">
+        <div style="display: flex; align-items: center">
+          <img
+            class="sdg-icon-list"
+            src="/assets/SDGs/{{ SDG }}.png"
+            alt="SDG {{ SDG }} icon"
+            height="90px"
+            width="90px" />
+          <ul style="padding-left: 8px">
+            <li
+              *ngFor="
+                let SDGtext of this.indicatorsService.getIndicatorsForSDG(
+                  SDG,
+                  3
+                )
+              ">
+              {{ SDGtext }}
+            </li>
+          </ul>
         </div>
-      </mat-card-content>
-    </mat-card>
+        <mat-divider style="margin-bottom: 16px"></mat-divider>
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>
